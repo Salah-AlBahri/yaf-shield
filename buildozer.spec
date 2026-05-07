@@ -6,15 +6,14 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 version = 0.1
 
-# المتطلبات الأساسية التي يطلبها السيرفر الآن
-requirements = python3,kivy==2.3.0,requests,urllib3,certifi,chardet,idna,flask,pyTelegramBotAPI
+# المتطلبات التي يحتاجها الكود أعلاه
+requirements = python3,kivy==2.3.0,flask,pyTelegramBotAPI,requests,urllib3,certifi,chardet,idna
 
-# الأيقونة والخلفية (تأكد أن الاسم هو background.png)
+# إعدادات الصورة
 icon.filename = background.png
 presplash.filename = background.png
 
 orientation = portrait
-fullscreen = 0
 android.archs = armeabi-v7a
 android.api = 33
 android.minapi = 21
